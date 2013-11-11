@@ -1,0 +1,42 @@
+<! DOCTYPE html>
+<html>
+<head>
+	<script type="text/javascript" src="vendor/jquery-1.10.1.js"></script>
+	<script type="text/javascript" src="src/jquery.ajaxLoading.js"></script>
+</head>
+<body>
+	<div><input id="btnStartLoading" type="button" value="Start loading" /></div>
+	<div id="test1"></div>
+	<div id="test2"></div>
+	<script type="text/javascript">
+	$(function(){
+		$.fn.ajaxLoading();
+		$.ajaxLoader.register([
+			// {
+			// 	element:'#test1',
+			// 	type:'text',
+			// 	src:'loading...',
+			// 	method:'http://localhost:3000/service'
+			// },
+			{
+				element:'#test2',
+				type:'image',
+				src:'img/indicator.gif',
+				url:'http://localhost:3000/service'
+			}
+		]);
+		$('#btnStartLoading').on('click',function(){
+			// $.ajax({
+			// 	url:'http://localhost:3000/service'
+			// });
+			$.ajax({
+			    url:"http://localhost:3000/service"
+		    });
+		});
+		$.fn.ajaxLoading({
+			onStatistics:true
+		});
+	});
+	</script>
+</body>
+</html>
