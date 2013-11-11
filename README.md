@@ -9,7 +9,7 @@ A jquery plugin to append loading indicator when ajax.
 		<script type="text/javascript" src="jquery.ajaxLoading.js"></script>
 		</head>
 
-##Quick Start
+## Quick Start
 
 		<div id='element1'></div>
 		<div id='element2'></div>
@@ -29,6 +29,11 @@ A jquery plugin to append loading indicator when ajax.
 		        url:'http://testUrl2'
 		    }
 		]);
+
+## To Do
+
+(1) Add progreebar type.
+(2) Add statistics function.
 
 ## License
 
