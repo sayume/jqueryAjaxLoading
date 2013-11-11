@@ -4,31 +4,31 @@ A jquery plugin to append loading indicator when ajax.
 
 ## Installation
 
-<head>
-<script type="text/javascript" src="jquery"></script>
-<script type="text/javascript" src="jquery.ajaxLoading.js"></script>
-</head>
+		<head>
+		<script type="text/javascript" src="jquery"></script>
+		<script type="text/javascript" src="jquery.ajaxLoading.js"></script>
+		</head>
 
 ##Quick Start
 
-<div id='element1'></div>
-<div id='element2'></div>
+		<div id='element1'></div>
+		<div id='element2'></div>
 
-$.fn.ajaxLoading();
-$.ajaxLoader.register([
-	{
-		element:'#element1',
-		type:'image',
-		src:'image path',
-		url:'http://testUrl1'
-	},
-	{
-        element:'#element2',
-        type:'text',
-        src:'loading...'
-        url:'http://testUrl2'
-    }
-]);
+		$.fn.ajaxLoading();
+		$.ajaxLoader.register([
+			{
+				element:'#element1',
+				type:'image',
+				src:'image path',
+				url:'http://testUrl1'
+			},
+			{
+		        element:'#element2',
+		        type:'text',
+		        src:'loading...'
+		        url:'http://testUrl2'
+		    }
+		]);
 
 ## License
 
