@@ -1,6 +1,6 @@
-# Jquery AjaxLoading
+# Jquery Ajax Loading
 
-A jquery plugin to append loading indicator when ajax.
+A jquery plugin to append loading indicator and do some other jobs when ajax.
 
 ## Installation
 
