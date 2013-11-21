@@ -6,13 +6,13 @@
 		ajaxLoading: function(options){
 
 			//check whether an ajaxloader is already created, if created, return the ajaxLoader.
-			var ajaxLoader=$.data(this[0]||window,'ajaxLoader');
+			var ajaxLoader=$.data(document.body,'ajaxLoader');
 			if(ajaxLoader){
-				$.ajaxLoader.setDefaults(options);
+				ajaxLoader.setDefaults(options);
 				return ajaxLoader;
 			}
 			ajaxLoader= new $.ajaxLoader(options);
-			$.data(this[0]||window,'ajaxLoader',ajaxLoader);
+			$.data(document.body,'ajaxLoader',ajaxLoader);
 		}
 	});
 
@@ -23,21 +23,38 @@
 
 	$.extend($.ajaxLoader,{
 
-		defaults:{
-			onStatistics:false
-		},
-
-		setDefaults:function(settings){
-			$.extend(this.defaults,settings);
-		},
-
-		register:function(bundles){
-			this.prototype.register(bundles);
-		},
-
 		prototype:{
 
 			bindings:[],
+
+			defaults:{
+			onStatistics:false
+		    },
+
+			setDefaults:function(settings){
+				$.extend(this.defaults,settings);
+			},
+
+			loadResource:function(url,holder,params){
+			if(!params){
+				this.loadImage(url,holder);
+			}
+			this.loadObject(url,holder,params);
+		    },
+
+			loadImage:function(url,element){
+				var img=$('<img/>');
+
+				img.attr('src',url).load(function(){
+					$(element).append(img);
+				});
+			},
+
+			loadObject:function(url,object,params){
+				$.get(url,params).done(function(data){
+					object=data;
+				});
+			},
 
 		    register:function(bundles){
 				for(var i=0;i<bundles.length;i++){

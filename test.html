@@ -10,8 +10,7 @@
 	<div id="test2"></div>
 	<script type="text/javascript">
 	$(function(){
-		$.fn.ajaxLoading();
-		$.ajaxLoader.register([
+		$.fn.ajaxLoading().register([
 			// {
 			// 	element:'#test1',
 			// 	type:'text',
@@ -33,6 +32,7 @@
 			    url:"http://localhost:3000/service"
 		    });
 		});
+
 		$.fn.ajaxLoading({
 			onStatistics:true
 		});
