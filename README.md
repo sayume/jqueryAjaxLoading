@@ -14,8 +14,7 @@ A jquery plugin to append loading indicator and do some other jobs when ajax.
 		<div id='element1'></div>
 		<div id='element2'></div>
 
-		$.fn.ajaxLoading();
-		$.ajaxLoader.register([
+		$.fn.ajaxLoading().register([
 			{
 				element:'#element1',
 				type:'image',
