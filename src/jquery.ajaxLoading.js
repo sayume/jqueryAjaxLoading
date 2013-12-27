@@ -13,6 +13,7 @@
 			}
 			ajaxLoader= new $.ajaxLoader(options);
 			$.data(document.body,'ajaxLoader',ajaxLoader);
+			return ajaxLoader;
 		}
 	});
 
