@@ -8,7 +8,7 @@
 			//check whether an ajaxloader is already created, if created, return the ajaxLoader.
 			var ajaxLoader=$.data(document.body,'ajaxLoader');
 			if(ajaxLoader){
-				ajaxLoader.setDefaults(options);
+				ajaxLoader.setOptions(options);
 				return ajaxLoader;
 			}
 			ajaxLoader= new $.ajaxLoader(options);
@@ -18,7 +18,7 @@
 	});
 
 	$.ajaxLoader=function(options){
-		$.extend(true,{},$.ajaxLoader.defaults,options);
+		$.extend(true,{},$.ajaxLoader.settings,options);
 		this.init();
 	};
 
@@ -27,13 +27,22 @@
 		prototype:{
 
 			bindings:[],
+			// data structure of binding element 
+			// {
+			// 	url,
+			// 	element,
+			// 	type,
+			// 	src,
+			// 	timeStamp,
+			// 	times
+			// }
 
-			defaults:{
+			settings:{
 			onStatistics:false
 		    },
 
-			setDefaults:function(settings){
-				$.extend(this.defaults,settings);
+			setOptions:function(settings){
+				$.extend(this.settings,settings);
 			},
 
 			loadResource:function(url,holder,params){
@@ -70,18 +79,29 @@
 
 				$(document).ajaxSend(function(event,jqxhr,settings){
 					var url=settings.url;
-					var binding=ajaxLoader.getBinding(url);
+					var binding=ajaxLoader.getStartBinding(url);
+
 					if(binding){
-						ajaxLoader.loadStart(binding);
+						ajaxLoader.loadStart(binding[0]);
+						if(ajaxLoader.settings.onStatistics){
+							binding[1].timeStamp.push(new Date());
+							binding[1].times+=1;
+						}
 					}
+
+
 				});
 
 				$(document).ajaxComplete(function(event,jqxhr,settings){
 					var url=settings.url;
-					var binding=ajaxLoader.getBinding(url);
+					var binding=ajaxLoader.getEndBinding(url);
 					if(binding){
-						ajaxLoader.loadEnd(binding);
+						ajaxLoader.loadEnd(binding[0]);
+						if(ajaxLoader.settings.onStatistics){
+							binding[1].timeStamp.push(new Date());
+						}
 					}
+						
 				});
 
 			},
@@ -89,32 +109,88 @@
 			addBinding:function(binding){
 				var bindings=this.bindings;
 				for(var i=0;i<bindings.length;i++){
-					if(binding.url===this.bindings[i].method){
-						this.bindings[i].type=binding.type;
-						this.bindings[i].src=binding.src;
+					if(binding.url===bindings[i].url){
+						$.extend(true,bindings[i],binding);
 						return false;
 					}
 				}
-				bindings.push(binding);
+				bindings.push({
+					url:binding.url,
+					element:binding.element,
+					src:binding.src,
+					type:binding.type,
+					timeStamp:[],
+					times:0
+				});
 				return false;
 			},
 
-			getBinding:function(url){
+			getStartBinding:function(url){
 				var binding=this.bindings;
 
-				//only return the first binding of an ajax method.
 				for(var i=0;i<binding.length;i++){
 					if(binding[i].url===url){
-						return binding[i];
+						return [binding[i],binding[i]];
+					}
+					if(binding[i].url.constructor==Array){
+						if(binding[i].url[0]===url){
+							var _binding=$.extend(true,{},binding[i]);
+							_binding.url=url;
+							return [_binding,binding[i]];
+						}
 					}
 				}
+			},
 
+			getEndBinding:function(url){
+				var binding=this.bindings;
+
+				for(var i=0;i<binding.length;i++){
+					if(binding[i].url===url){
+						return [binding[i],binding[i]];
+					}
+					if(binding[i].url.constructor==Array){
+						if(binding[i].url[1]===url){
+							var _binding=$.extend(true,{},binding[i]);
+							_binding.url=url;
+							return [_binding,binding[i]];
+						}
+					}
+				}
+			},
+
+			getTimeCost:function(binding){
+				return binding.timeStamp[1].getTime()-binding.timeStamp[0].getTime();
+			},
+
+			getStatistics:function(callback){
+				if(callback.constructor==Function){
+					$(document).ajaxStop(function(){
+						var result=[],
+				        bindings=$.ajaxLoader.prototype.bindings;
+
+						for(var i=0;i<bindings.length;i++){
+							result.push({
+								url:bindings[i].url,
+								timeCost:$.ajaxLoader.prototype.getTimeCost(bindings[i]),
+								times:bindings[i].times
+							});
+						}
+						callback(result);
+					});
+				}
 			},
 
 			loadStart:function(binding){
 				var type=binding.type,
 				element=binding.element,
 				src=binding.src;
+
+				if(!$(element)){
+					return false;
+				}
+
+				$(element).empty();
 
 				if(type==="text"){
 					$(element).append(src);
@@ -129,6 +205,11 @@
 
 			loadEnd:function(binding){
 				var element=binding.element;
+
+				if(!$(element)){
+					return false;
+				}
+
 				$(element).empty();
 			}
 

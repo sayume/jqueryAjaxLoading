@@ -10,32 +10,40 @@
 	<div id="test2"></div>
 	<script type="text/javascript">
 	$(function(){
+
 		$.fn.ajaxLoading().register([
 			// {
-			// 	element:'#test1',
-			// 	type:'text',
-			// 	src:'loading...',
-			// 	method:'http://localhost:3000/service'
-			// },
+			//  	element:'#test1',
+			//  	type:'text',
+			//  	src:'loading...',
+			//  	method:'http://localhost:3000/service'
+		 //    },
 			{
 				element:'#test2',
 				type:'image',
 				src:'img/indicator.gif',
-				url:'http://localhost:3000/service'
+				url:['http://localhost:3000/','http://localhost:3000/json']
 			}
 		]);
-		$('#btnStartLoading').on('click',function(){
-			// $.ajax({
-			// 	url:'http://localhost:3000/service'
-			// });
-			$.ajax({
-			    url:"http://localhost:3000/service"
-		    });
-		});
 
 		$.fn.ajaxLoading({
 			onStatistics:true
 		});
+
+		$('#btnStartLoading').on('click',function(){
+			$.ajax({
+			    url:"http://localhost:3000/"
+		    });
+		    $.ajax({
+		    	url:"http://localhost:3000/json",
+		    	dataType:'json'
+		    }).done(function(){
+		    	alert($.fn.ajaxLoading().getStatistics()[0].timeCost);
+		    	alert($.fn.ajaxLoading().getStatistics()[0].times);
+		    });
+		});
+
+
 	});
 	</script>
 </body>
