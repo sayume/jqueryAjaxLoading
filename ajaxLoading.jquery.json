@@ -4,11 +4,12 @@
     "description": "Bind an indicator for jquery ajax loading process.",
     "keywords": [
         "ajax",
-        "loading indicator"
+        "indicator",
+        "loading"
     ],
     "version": "0.1.0",
     "author": {
-        "name": "sayume and other contributors",
+        "name": "sayume and other contributors"
     },
     "maintainers": [
         {
