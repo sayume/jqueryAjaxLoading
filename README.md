@@ -1,6 +1,6 @@
 # Jquery Ajax Loading
 
-A jquery plugin to append loading indicator and do some other jobs when ajax.
+A jquery plugin to bind a loading indicator to the ajax process.
 
 ## Installation
 
@@ -29,10 +29,19 @@ A jquery plugin to append loading indicator and do some other jobs when ajax.
 		    }
 		]);
 
+You can also use it to indicate sequantial ajax processes by register start url and end url.
+        $.fn.ajaxLoading().register([
+			{
+				element:'#test',
+				type:'image',
+				src:'img/indicator.gif',
+				url:['http://startUrl','http://endUrl']
+			}
+		]);
+
 ## To Do
 
 (1) Add progreebar type.
-(2) Add statistics function.
 
 ## License
 

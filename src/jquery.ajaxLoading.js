@@ -27,15 +27,6 @@
 		prototype:{
 
 			bindings:[],
-			// data structure of binding element 
-			// {
-			// 	url,
-			// 	element,
-			// 	type,
-			// 	src,
-			// 	timeStamp,
-			// 	times
-			// }
 
 			settings:{
 			onStatistics:false

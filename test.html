@@ -6,20 +6,13 @@
 </head>
 <body>
 	<div><input id="btnStartLoading" type="button" value="Start loading" /></div>
-	<div id="test1"></div>
-	<div id="test2"></div>
+	<div id="test"></div>
 	<script type="text/javascript">
 	$(function(){
 
 		$.fn.ajaxLoading().register([
-			// {
-			//  	element:'#test1',
-			//  	type:'text',
-			//  	src:'loading...',
-			//  	method:'http://localhost:3000/service'
-		 //    },
 			{
-				element:'#test2',
+				element:'#test',
 				type:'image',
 				src:'img/indicator.gif',
 				url:['http://localhost:3000/','http://localhost:3000/json']
