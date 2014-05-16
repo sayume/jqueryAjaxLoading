@@ -30,6 +30,7 @@ A jquery plugin to bind a loading indicator to the ajax process.
 		]);
 
 You can also use it to indicate sequantial ajax processes by register start url and end url.
+
         $.fn.ajaxLoading().register([
 			{
 				element:'#test',
